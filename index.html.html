@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Quran</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Poppins;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .title {
+            width: 100vw;
+            height: 25%;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            margin-top: 5%;
+        }
+
+        .isi-title {
+            background-color: #6C55E0;
+            width: 60%;
+            border-radius: 18px;
+            flex-shrink: 0;
+        }
+
+        .isi-title h1 {
+            margin-top: 6%;
+            font-size: 44px;
+            color: #fff;
+        }
+
+        .isi-title p {
+            margin-bottom: 5%;
+            font-size: 17px;
+            color: #fff;
+        }
+
+        .buatSearch {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+
+        .search-bar:hover {
+            transform: scale(1.05);
+        }
+
+        .search-bar {
+            margin-top: 4%;
+            width: 520px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 100px;
+            background: #F9F9F9;
+            border: 1px solid #dbdbdb;
+            box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+            cursor: pointer;
+            transition: transform 0.5s, background 0.5s;
+        }
+
+        .search-bar i {
+            font-size: 30px;
+            color: #808080;
+            margin-left: 24px;
+        }
+
+        #search:focus {
+            outline: none;
+            /* Menghilangkan border focus default (optional) */
+            border: none;
+            /* Menghilangkan border saat fokus aktif */
+        }
+
+        #search {
+            width: 456px;
+            height: 46px;
+            padding: 10px;
+            border-radius: 100px;
+            background: #F9F9F9;
+            font-size: 17px;
+            border: none;
+        }
+
+
+        .murotal {
+            width: 100vw;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5%;
+        }
+
+        .murotalCard {
+            width: 280px;
+            background-color: #f8f9fa80;
+            box-shadow: #444;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0px 0px 20px 2px rgba(0, 0, 0, 0.10);
+            margin-left: 50px;
+            margin-right: 20px;
+            margin-bottom: 60px;
+            cursor: pointer;
+            transition: transform 0.5s, background 0.5s;
+        }
+
+        .murotalCard:hover {
+            transform: scale(1.05);
+        }
+
+        .murotalCard h1 {
+            font-size: 24px;
+        }
+
+        .murotalCard p {
+            font-size: 14px;
+            margin-bottom: 2%;
+        }
+
+        .murotalCard h1,
+        p {
+            color: #444;
+        }
+
+        .murotalCard h2 {
+            text-align: end;
+            color: #929292;
+            font-size: 40px;
+            margin-right: 15px;
+        }
+
+        audio {
+            margin-top: 10px;
+            width: 260px;
+            padding: 8px;
+            background-color: #848484;
+            border-radius: 100px;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 100vw;
+            margin-top: 3%;
+            height: 6%;
+            background-color: #6C55E0;
+        }
+
+        .footer p {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="title">
+            <div class="isi-title">
+                <h1>My Quran</h1>
+                <p>30 Juz Online Alquran</p>
+            </div>
+        </div>
+
+        <div class="buatSearch">
+            <div class="search-bar">
+                <i class='bx bx-search'></i>
+                <input type="text" id="search" placeholder="What surah do you want to listen?">
+            </div>
+        </div>
+
+
+        <div class="murotal" id="murotal">
+            <!-- JavaScript will populate this section -->
+        </div>
+
+        <div class="footer">
+            <p>Copyrirght © 2023 Arkan Naufal</p>
+        </div>
+
+    </div>
+
+    <script>
+        const url = 'https://raw.githubusercontent.com/penggguna/QuranJSON/master/quran.json';
+        const murotal = document.getElementById('murotal');
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(el => {
+                    // div murotal
+                    const divMurotal = document.createElement('div');
+                    divMurotal.classList.add('murotal');
+
+                    // div card pake DOM
+                    const card = document.createElement('div');
+                    card.classList.add('murotalCard');
+
+                    // buat nama surat nya
+                    const namaSurat = document.createElement('h1');
+                    namaSurat.textContent = el.name;
+
+                    // buat jenis surat nya
+                    const jenisSurat = document.createElement('p');
+                    jenisSurat.textContent = el.type;
+
+                    // buat tulisan arab surat nya
+                    const textArab = document.createElement('h2');
+                    textArab.textContent = el.name_translations.ar;
+
+                    // buat audio nya
+                    const audio = document.createElement('audio');
+                    audio.setAttribute('controls', '');
+                    audio.setAttribute('src', el.recitation);
+
+                    // buat nampilin
+                    murotal.append(card);
+                    card.append(namaSurat);
+                    card.append(jenisSurat);
+                    card.append(textArab);
+                    card.append(audio);
+                });
+            });
+
+        // Get references to the input and list
+        const searchInput = document.getElementById("search");
+        const itemList = document.getElementById("murotal");
+
+        // Listen for user input in the search bar
+        searchInput.addEventListener("input", filterItems);
+
+        function filterItems() {
+            const searchText = searchInput.value.toLowerCase();
+            const items = itemList.getElementsByClassName("murotalCard");
+
+            for (let item of items) {
+                const surahName = item.querySelector('h1').textContent.toLowerCase();
+                if (surahName.includes(searchText)) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
